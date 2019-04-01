@@ -25,9 +25,11 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter @Setter
 @Entity(name = "user_table")
+
 public class User implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
+
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
