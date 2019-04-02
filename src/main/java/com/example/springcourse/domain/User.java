@@ -15,7 +15,6 @@ import javax.persistence.OneToMany;
 
 import com.example.springcourse.domain.enums.Role;
 
-import javassist.SerialVersionUID;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,7 +24,6 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter @Setter
 @Entity(name = "user_table")
-
 public class User implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
