@@ -35,17 +35,13 @@ public class RequestStageRepositoryTests {
 		request.setId(1L);
 		
 		RequestStage stage = new RequestStage(null, "Foi comprado um novo laptop", new Date(), RequestState.CLOSED, request, user); 
-		
 		RequestStage createdStage = requestStageRepository.save(stage);
-		
 		assertThat(createdStage.getId()).isEqualTo(1L);
 	}
 
 	@Test
 	public void getByIdTest() {
-
 		Optional<RequestStage> result =  requestStageRepository.findById(1L);
-
 		RequestStage requestStage = result.get();
 		assertThat(requestStage.getDescrition()).isEqualTo("Something");
 		
@@ -53,8 +49,7 @@ public class RequestStageRepositoryTests {
 
 	@Test
 	public void listByRequestIdTest() {
-		List<RequestStage> stages = requestStageRepository.findAll();
-
+		List<RequestStage> stages = requestStageRepository.findAllByRequestId(1L);
 		assertThat(stages.size()).isEqualTo(1);
 	}
 }
