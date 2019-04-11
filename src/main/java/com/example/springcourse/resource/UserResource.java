@@ -2,7 +2,6 @@ package com.example.springcourse.resource;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,15 +12,21 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.springcourse.domain.Request;
 import com.example.springcourse.domain.User;
 import com.example.springcourse.dto.UserLogindto;
+import com.example.springcourse.service.RequestService;
 import com.example.springcourse.service.UserService;
+
+import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping(value = "users")
+@RequiredArgsConstructor
 public class UserResource {
 	
-	@Autowired private UserService userService;
+	private UserService userService;
+	private RequestService requestService;
 	
 	//save
 	public ResponseEntity<User> save(@RequestBody User user){
@@ -57,6 +62,14 @@ public class UserResource {
 	public ResponseEntity<User> login(@RequestBody UserLogindto user){
 		User loggedUser = userService.login(user.getEmail(), user.getPassword());
 		return ResponseEntity.ok(loggedUser);
+	}
+	
+	//lista requests all by owner id
+	@GetMapping("/{id}/requests")
+	public ResponseEntity<List<Request>> listAllRequestById(@PathVariable(name = "id") Long id){
+		List<Request> requests = requestService.listAllByOwnerId(id);
+		return ResponseEntity.ok(requests);
+		
 	}
 
 }
