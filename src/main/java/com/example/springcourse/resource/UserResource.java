@@ -2,6 +2,7 @@ package com.example.springcourse.resource;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,8 +26,8 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class UserResource {
 	
-	private UserService userService;
-	private RequestService requestService;
+	@Autowired private UserService userService;
+	@Autowired private RequestService requestService;
 	
 	//save
 	public ResponseEntity<User> save(@RequestBody User user){
@@ -64,7 +65,7 @@ public class UserResource {
 		return ResponseEntity.ok(loggedUser);
 	}
 	
-	//lista requests all by owner id
+	//lista all by owner id
 	@GetMapping("/{id}/requests")
 	public ResponseEntity<List<Request>> listAllRequestById(@PathVariable(name = "id") Long id){
 		List<Request> requests = requestService.listAllByOwnerId(id);
