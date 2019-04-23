@@ -15,6 +15,7 @@ import javax.persistence.OneToMany;
 
 import com.example.springcourse.domain.enums.Role;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -40,6 +41,8 @@ public class User implements Serializable{
 	@Column(length = 75, nullable = false, unique = true)
 	private String email;
 	
+	@Getter(onMethod = @__({@JsonIgnore}))
+	@Setter(onMethod = @__({@JsonProperty}))
 	@Column(length = 100, nullable = false)
 	private String password;
 	
