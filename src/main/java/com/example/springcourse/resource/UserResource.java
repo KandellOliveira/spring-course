@@ -11,11 +11,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.springcourse.domain.Request;
 import com.example.springcourse.domain.User;
 import com.example.springcourse.dto.UserLogindto;
+import com.example.springcourse.model.PageModel;
+import com.example.springcourse.model.PageRequestModel;
 import com.example.springcourse.service.RequestService;
 import com.example.springcourse.service.UserService;
 
@@ -54,10 +57,22 @@ public class UserResource {
 	
 	//list
 	@GetMapping
-	public ResponseEntity<List<User>> listAll(){
-		List<User> users = userService.listAll();
-		return ResponseEntity.ok(users);
+	public ResponseEntity<PageModel<User>> listAll(
+			@RequestParam(value = "page") int page, 
+			@RequestParam(value = "size") int size) {
+		
+		PageRequestModel pr = new PageRequestModel(page, size);
+		PageModel<User> pm = userService.listAllOnLazyModel(pr);
+		return ResponseEntity.ok(pm);
 	} 
+	
+	/*
+	 * //list
+	 * 
+	 * @GetMapping public ResponseEntity<List<User>> listAll(){ List<User> users =
+	 * userService.listAll(); return ResponseEntity.ok(users); }
+	 */
+	
 	
 	//login
 	@PostMapping("/login")
