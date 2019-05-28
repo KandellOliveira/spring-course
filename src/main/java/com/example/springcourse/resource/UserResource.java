@@ -81,11 +81,25 @@ public class UserResource {
 		return ResponseEntity.ok(loggedUser);
 	}
 	
+	/*
+	 * //lista all by owner id
+	 * 
+	 * @GetMapping("/{id}/requests") public ResponseEntity<List<Request>>
+	 * listAllRequestById(@PathVariable(name = "id") Long id){ List<Request>
+	 * requests = requestService.listAllByOwnerId(id); return
+	 * ResponseEntity.ok(requests);
+	 * 
+	 * }
+	 */
 	//lista all by owner id
 	@GetMapping("/{id}/requests")
-	public ResponseEntity<List<Request>> listAllRequestById(@PathVariable(name = "id") Long id){
-		List<Request> requests = requestService.listAllByOwnerId(id);
-		return ResponseEntity.ok(requests);
+	public ResponseEntity<PageModel<Request>> listAllRequestById(
+			@PathVariable(name = "id") Long id, 
+			@RequestParam(value = "size") int size, 
+			@RequestParam(value = "page") int page ){
+		PageRequestModel pr  = new PageRequestModel(page, size);
+		PageModel<Request> pm = requestService.listAllByOwnerIdOnLazyModel(id, pr);
+		return ResponseEntity.ok(pm);
 		
 	}
 
