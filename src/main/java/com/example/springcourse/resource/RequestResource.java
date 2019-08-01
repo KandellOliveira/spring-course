@@ -2,6 +2,8 @@ package com.example.springcourse.resource;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +19,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.springcourse.domain.Request;
 import com.example.springcourse.domain.RequestStage;
 import com.example.springcourse.domain.User;
+import com.example.springcourse.dto.RequestSavedto;
+import com.example.springcourse.dto.RequestUpdatedto;
 import com.example.springcourse.model.PageModel;
 import com.example.springcourse.model.PageRequestModel;
 import com.example.springcourse.service.RequestService;
@@ -33,15 +37,28 @@ public class RequestResource {
 	@Autowired private RequestStageService requestStageService;
 	
 	//save
+	/*
+	 * @PostMapping public ResponseEntity<Request> save(@RequestBody Request
+	 * request){ Request createdRequest = requestService.save(request); return
+	 * ResponseEntity.status(HttpStatus.CREATED).body(createdRequest); }
+	 */
 	@PostMapping
-	public ResponseEntity<Request> save(@RequestBody Request request){
+	public ResponseEntity<Request> save(@RequestBody @Valid RequestSavedto requestdto){
+		Request request = requestdto.transformToRequest();
 		Request createdRequest = requestService.save(request);
 		return ResponseEntity.status(HttpStatus.CREATED).body(createdRequest);
 	}
 	
 	//update
+	/*
+	 * @PutMapping("/{id}") public ResponseEntity<Request> update(@PathVariable(name
+	 * = "id") Long id, @RequestBody Request request){ request.setId(id); Request
+	 * updatedRequest = requestService.update(request); return
+	 * ResponseEntity.ok(updatedRequest); }
+	 */
 	@PutMapping("/{id}")
-	public ResponseEntity<Request> update(@PathVariable(name = "id") Long id, @RequestBody Request request){
+	public ResponseEntity<Request> update(@PathVariable(name = "id") Long id, @RequestBody @Valid RequestUpdatedto requestdto){
+		Request request = requestdto.transformToRequest();
 		request.setId(id);
 		Request updatedRequest = requestService.update(request);
 		return ResponseEntity.ok(updatedRequest);
