@@ -7,6 +7,10 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -37,6 +41,7 @@ public class UserResource {
 	
 	@Autowired private UserService userService;
 	@Autowired private RequestService requestService;
+	@Autowired private AuthenticationManager authManeger;
 	
 	//save
 	/*
@@ -50,6 +55,7 @@ public class UserResource {
 		User userToSave = userdto.transforToUser();
 		User createdUser = userService.save(userToSave);
 		return ResponseEntity.status(HttpStatus.CREATED).body(createdUser);		
+		
 	}
 	
 	//update
@@ -93,12 +99,24 @@ public class UserResource {
 	 */
 	
 	
+	/*Método Antigo de logar
+	 * //login
+	 * 
+	 * @PostMapping("/login") public ResponseEntity<User> login(@RequestBody @Valid
+	 * UserLogindto user){ User loggedUser = userService.login(user.getEmail(),
+	 * user.getPassword()); return ResponseEntity.ok(loggedUser); }
+	 */
+	
 	//login
-	@PostMapping("/login")
-	public ResponseEntity<User> login(@RequestBody @Valid UserLogindto user){
-		User loggedUser = userService.login(user.getEmail(), user.getPassword());
-		return ResponseEntity.ok(loggedUser);
-	}
+		@PostMapping("/login")
+		public ResponseEntity<User> login(@RequestBody @Valid UserLogindto user){
+			UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword());
+			
+			Authentication auth = authManeger.authenticate(token);
+			SecurityContextHolder.getContext().setAuthentication(auth);
+			
+			return ResponseEntity.ok(null);
+		}
 	
 	/*
 	 * //lista all by owner id
