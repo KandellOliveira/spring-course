@@ -7,6 +7,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -35,6 +36,7 @@ public class RequestResource {
 	
 	@Autowired private RequestService requestService;
 	@Autowired private RequestStageService requestStageService;
+	@Autowired private AccessManager accessManager;
 	
 	//save
 	/*
@@ -56,6 +58,7 @@ public class RequestResource {
 	 * updatedRequest = requestService.update(request); return
 	 * ResponseEntity.ok(updatedRequest); }
 	 */
+	@PreAuthorize("@accessManager.isRequestOwner(#id)")
 	@PutMapping("/{id}")
 	public ResponseEntity<Request> update(@PathVariable(name = "id") Long id, @RequestBody @Valid RequestUpdatedto requestdto){
 		Request request = requestdto.transformToRequest();
