@@ -32,7 +32,6 @@ import com.example.springcourse.dto.UserUpdateRoledto;
 import com.example.springcourse.dto.UserUpdatedto;
 import com.example.springcourse.model.PageModel;
 import com.example.springcourse.model.PageRequestModel;
-import com.example.springcourse.security.AccessManager;
 import com.example.springcourse.security.JwtManager;
 import com.example.springcourse.service.RequestService;
 import com.example.springcourse.service.UserService;
@@ -48,7 +47,6 @@ public class UserResource {
 	@Autowired private RequestService requestService;
 	@Autowired private AuthenticationManager authManeger;
 	@Autowired private JwtManager jwtManager;
-	@Autowired private AccessManager accessManager;
 	
 	//save
 	/*

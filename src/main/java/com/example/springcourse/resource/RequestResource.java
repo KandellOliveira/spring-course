@@ -1,7 +1,5 @@
 package com.example.springcourse.resource;
 
-import java.util.List;
-
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.springcourse.domain.Request;
 import com.example.springcourse.domain.RequestStage;
-import com.example.springcourse.domain.User;
 import com.example.springcourse.dto.RequestSavedto;
 import com.example.springcourse.dto.RequestUpdatedto;
 import com.example.springcourse.model.PageModel;
@@ -36,7 +33,6 @@ public class RequestResource {
 	
 	@Autowired private RequestService requestService;
 	@Autowired private RequestStageService requestStageService;
-	@Autowired private AccessManager accessManager;
 	
 	//save
 	/*
